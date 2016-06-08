@@ -5,8 +5,8 @@
 Bài viết này sẽ hướng dẫn cơ bản cách thiết lập SolrCloud trên hệ thống.
 
 ##### MỤC LỤC
-[Yêu cầu](#requirement)
-[Cài đặt](#setup)
+[Yêu cầu](#requirement)  
+[Cài đặt](#setup)  
 
 <a name="requirement"/>
 ## YÊU CẦU
@@ -43,9 +43,9 @@ Bài viết này sẽ hướng dẫn cơ bản cách thiết lập SolrC
 ## CÀI ĐẶT  
 
 ### Chuẩn bị  
-- Cập nhật hệ thống: $ sudo yum update
-- Cài đặt Java JDK 7: $ sudo yum install java-1.7.0-openjdk-devel
-- Tạo biến môi trường JAVA_HOME dẫn đến Java JDK
+- Cập nhật hệ thống: `$ sudo yum update`
+- Cài đặt Java JDK 7: `$ sudo yum install java-1.7.0-openjdk-devel`
+- Tạo biến môi trường `JAVA_HOME` dẫn đến Java JDK
 
 ### Cài đặt ZooKeeper
 1. Download file cài đặt ZooKeeper: http://www-us.apache.org/dist/zookeeper/
@@ -77,7 +77,7 @@ server.3=zoo3:2888:3888
 - Lặp lại thiết lập cho các máy khác
 - Danh sách các command cơ bản trong ZooKeeper có ở dưới
 
-*Các command cơ bản trong ZooKeeper*
+***Các command cơ bản trong ZooKeeper***
 - Khởi động ZooKeeper:  
 `$ sudo bash $ZK_HOME\bin\zkServer.sh start`        
 - Kiểm tra trạng thái ZooKeeper:  
@@ -93,16 +93,16 @@ Nếu có lỗi thì check ở thư mục của biến `logDir` trong ZooKeeper
 - Danh sách command đầy đủ:  
 `$ sudo bash $ZK_HOME\bin\zkServer.sh help`
 
-*Kết nối tới cụm ZooKeeper (có thể hiểu như truy cập directory của ZooKeeper)*
+***Kết nối tới cụm ZooKeeper (có thể hiểu như truy cập directory của ZooKeeper)***
 `$ sudo bash $ZK_HOME\bin\zkCli.sh -server [host1:port1,host2:port2,host3:port3,...]`  
 Sau khi kết nối gõ `help` để có danh sách câu lệnh
 
-*Các parameter cơ bản trong ZooKeeper*
+***Các parameter cơ bản trong ZooKeeper***
 - `ticktime`: đơn vị thời gian trong ZooKeeper tính theo mili giây. Được dùng để tính heartbeat (check xem máy có đang hoạt động không) hoặc session timeout. *Không nên đặt thời gian này quá cao*
 - `dataDir`: địa chỉ lưu snapshot, nên lưu ở thư mục riêng (vd: /etc/zookeeper/)
 - `clientPort`: port mà client sẽ kết nối tới ZK
 
-*Các parameter nâng cao trong ZooKeeper*
+***Các parameter nâng cao trong ZooKeeper***
 http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_advancedConfiguration
 Lưu ý:
 - `dataLogDir`: đường dẫn giữ log của ZooKeeper
@@ -111,7 +111,7 @@ Lưu ý:
 - `autopurge.purgeInterval`: thời gian giữa những lần chạy purge. Mặc định = 0 (không chạy), đặt bằng số nguyên dương (> 1) để chạy.
 - `minSessionTimeout`/`maxSessionTimeout`
 
-*Các parameter cho cụm ZooKeeper*
+***Các parameter cho cụm ZooKeeper***
 http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_clusterOptions
 Lưu ý:
 - `initLimit`: số lượt tick mà giai đoạn sync có thể cần
@@ -125,10 +125,10 @@ Có 2 port: `nnnn` được dùng để kết nối tới máy leader trong cụ
 ### Cài đặt Solr
 https://cwiki.apache.org/confluence/display/solr/Taking+Solr+to+Production
 
-1. Tải bộ cài đặt Solr tại: http://www.apache.org/dyn/closer.lua/lucene/solr  
+- Tải bộ cài đặt Solr tại: http://www.apache.org/dyn/closer.lua/lucene/solr  
 Phiên bản ổn định nhất có thể dùng 5.5.1 hoặc 6.0.1
-2. Cài đặt lsof cho CentOS để script cài đặt có thể kiểm tra hoạt động Solr: `$ sudo yum install lsof`
-3. Giải nén và chạy script cài đặt bằng cách thực hiện câu lệnh:
+- Cài đặt lsof cho CentOS để script cài đặt có thể kiểm tra hoạt động Solr: `$ sudo yum install lsof`
+- Giải nén và chạy script cài đặt bằng cách thực hiện câu lệnh:
 ```bash
 $ sudo tar xzf solr-{version}.tgz solr-{version}/bin/install_solr_service.sh --strip-components=2
 $ sudo bash ./install_solr_service.sh solr-{version}.tgz
@@ -142,19 +142,19 @@ Danh sách các lựa chọn của script cài đặt có thể lấy bằng cá
 ```bash
 $ sudo bash ./install_solr_service.sh -help
 ```
-4. Sau khi cài đặt xong, ta có thể kiểm tra bằng cách chạy câu lệnh:
+- Sau khi cài đặt xong, ta có thể kiểm tra bằng cách chạy câu lệnh:
 ```bash
 $ sudo service solr status
 ```
-5. Tạo chroot (znode) cho cụm ZooKeeper bằng cách chạy script:
+- Tạo chroot (znode) cho cụm ZooKeeper bằng cách chạy script:
 ```bash
 $ZK_INSTALL_DIR server/scripts/cloud-scripts/zkcli.sh -zkhost host1:port1,host2:port2,host3:port3 -cmd makepath /solr
 ```
-6. Chỉnh sửa file `/etc/default/solr.in.sh` để override các thuộc tính cho SolrCloud. Ví dụ
+- Chỉnh sửa file `/etc/default/solr.in.sh` để override các thuộc tính cho SolrCloud. Ví dụ
 ```xml
 # Specify ZK_HOST to connect to ZooKeeper and enables SolrCloud mode
 ZK_HOST=host1:port1,host2:port2,host3:port3/solr
 # Specify SOLR_HOST to identify the current Solr node with ZooKeeper cluster
 SOLR_HOST=solr1.example.com
 ```
-7. Kiểm tra trạng thái của Solr
+- Kiểm tra trạng thái của Solr
