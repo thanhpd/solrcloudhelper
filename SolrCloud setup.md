@@ -93,7 +93,7 @@ Nếu có lỗi thì check ở thư mục của biến `logDir` trong ZooKeeper
 - Danh sách command đầy đủ:  
 `$ sudo bash $ZK_HOME\bin\zkServer.sh help`
 
-***Kết nối tới cụm ZooKeeper (có thể hiểu như truy cập directory của ZooKeeper)***
+***Kết nối tới cụm ZooKeeper (có thể hiểu như truy cập directory của ZooKeeper)***  
 `$ sudo bash $ZK_HOME\bin\zkCli.sh -server [host1:port1,host2:port2,host3:port3,...]`  
 Sau khi kết nối gõ `help` để có danh sách câu lệnh
 
@@ -102,8 +102,8 @@ Sau khi kết nối gõ `help` để có danh sách câu lệnh
 - `dataDir`: địa chỉ lưu snapshot, nên lưu ở thư mục riêng (vd: /etc/zookeeper/)
 - `clientPort`: port mà client sẽ kết nối tới ZK
 
-***Các parameter nâng cao trong ZooKeeper***
-http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_advancedConfiguration
+***Các parameter nâng cao trong ZooKeeper***  
+http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_advancedConfiguration  
 Lưu ý:
 - `dataLogDir`: đường dẫn giữ log của ZooKeeper
 - `maxClientCnxns`: số lượng kết nối tối đa từ client có thể chấp nhận được
@@ -111,8 +111,8 @@ Lưu ý:
 - `autopurge.purgeInterval`: thời gian giữa những lần chạy purge. Mặc định = 0 (không chạy), đặt bằng số nguyên dương (> 1) để chạy.
 - `minSessionTimeout`/`maxSessionTimeout`
 
-***Các parameter cho cụm ZooKeeper***
-http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_clusterOptions
+***Các parameter cho cụm ZooKeeper***  
+http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_clusterOptions  
 Lưu ý:
 - `initLimit`: số lượt tick mà giai đoạn sync có thể cần
 - `syncLimit`: số lượt tick tối đa giữa một lần gửi request và nhận được acknowledgement
